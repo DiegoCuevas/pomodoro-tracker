@@ -1,23 +1,26 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 function Clock() {
-  const [resume, setResume] = useState(false);
+  const [resume, setResume] = useState(0);
   const [cronos, setCronos] = useState({minutes: 25, seconds: 0})
   const [intervalId, setIntervalId] = useState();
   const resumeButton = () => {
-    setResume((current) => !current);
-    console.log(resume); // is false
+    initial()
+    setResume(2);
   };
   const pauseButton = () =>{
+    setResume(1);
     clearInterval(intervalId)
-    console.log('clear')
   }
   const clearButton = () =>{
+    setResume(0);
     clearInterval(intervalId);
     setCronos({minutes: 25, seconds: 0})
   }
-  useEffect(() => {
+ 
+  const initial = () =>{
+    setResume(2);
     const id  = setInterval(() => {
       setCronos((current) => {
         if (current.seconds > 0) {
@@ -33,10 +36,19 @@ function Clock() {
       });
     }, 1000);
     setIntervalId(id);
-    return () => {
-      clearInterval(id);
-    };
-  }, [resume]);
+  };
+  const button = () => {
+    switch (resume) {
+      case 0:
+        return <button onClick={initial}>Start</button>;
+      case 1:
+        return <button onClick={resumeButton}>Resume</button>;
+      case 2:
+        return <button onClick={pauseButton}>Pause</button>;
+      default:
+        return <h1>Error</h1>;
+    }
+  };
 
   return (
     <div>
@@ -44,11 +56,7 @@ function Clock() {
         {cronos.minutes < 10 ? `0${cronos.minutes}` : cronos.minutes}:
         {cronos.seconds < 10 ? `0${cronos.seconds}` : cronos.seconds}
       </h1>
-      {resume ? (
-        <button onClick={resumeButton}>Resume</button>
-      ) : (
-        <button onClick={pauseButton}>Pause</button>
-      )}
+      {button()}
       <br />
       <button onClick={clearButton}>Clear</button>
     </div>
