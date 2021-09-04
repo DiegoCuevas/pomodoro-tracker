@@ -40,25 +40,41 @@ function Clock() {
   const button = () => {
     switch (resume) {
       case 0:
-        return <button onClick={initial}>Start</button>;
+        return (
+          <button onClick={initial} className="w-full border border-white py-3 rounded-lg">
+            Start
+          </button>
+        );
       case 1:
-        return <button onClick={resumeButton}>Resume</button>;
+        return (
+          <button onClick={resumeButton} className="w-full border border-white py-3 rounded-lg ">
+            Resume
+          </button>
+        );
       case 2:
-        return <button onClick={pauseButton}>Pause</button>;
+        return (
+          <button onClick={pauseButton} className="w-full border border-white py-3 rounded-lg text-red-500">
+            Pause
+          </button>
+        );
       default:
         return <h1>Error</h1>;
     }
   };
 
   return (
-    <div>
-      <h1>
-        {cronos.minutes < 10 ? `0${cronos.minutes}` : cronos.minutes}:
-        {cronos.seconds < 10 ? `0${cronos.seconds}` : cronos.seconds}
-      </h1>
-      {button()}
-      <br />
-      <button onClick={clearButton}>Clear</button>
+    <div className="flex flex-col h-5/6 justify-between">
+      <div className="w-full my-28">
+        <div className="w-full text-center self-center">
+          {cronos.minutes < 10 ? `0${cronos.minutes}` : cronos.minutes}:
+          {cronos.seconds < 10 ? `0${cronos.seconds}` : cronos.seconds}
+        </div>
+      </div>
+      <div className="h-1/3 flex flex-col justify-between">
+        {button()}
+        <br />
+        <button onClick={clearButton} className="w-full border border-white py-3 rounded-lg">Clear</button>
+      </div>
     </div>
   );
 }
